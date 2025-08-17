@@ -1,0 +1,5 @@
+flask
+diffusers
+torch
+torchsde
+soundfile

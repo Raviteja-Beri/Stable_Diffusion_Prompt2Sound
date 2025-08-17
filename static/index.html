@@ -1,0 +1,34 @@
+<!-- static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text to Audio Generator</title>
+</head>
+<body>
+  <h2>🎤 Text to Audio Generator</h2>
+  <input type="text" id="prompt" placeholder="Enter a sound prompt" size="50" />
+  <button onclick="generate()">Generate</button>
+  <br><br>
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    async function generate() {
+      const prompt = document.getElementById("prompt").value;
+      const response = await fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        document.getElementById("audioPlayer").src = url;
+      } else {
+        alert("Failed to generate audio");
+      }
+    }
+  </script>
+</body>
+</html>
